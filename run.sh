@@ -19,9 +19,13 @@ NO_PSQL_PASSWORD=$?
 
 # If psql doesn't require a password, then set one and create the database
 if [[ $NO_PSQL_PASSWORD ]]; then
+	echo "Creating user"
 	su postgres sh -c "/usr/lib/postgresql/9.3/bin/postgres --single -D /var/lib/postgresql/9.3/main -c config_file=/etc/postgresql/9.3/main/postgresql.conf" <<< "CREATE USER root WITH PASSWORD '$1';"
+	echo "Creating database"
 	su postgres sh -c "/usr/lib/postgresql/9.3/bin/postgres --single -D /var/lib/postgresql/9.3/main -c config_file=/etc/postgresql/9.3/main/postgresql.conf" <<< "CREATE DATABASE db ENCODING 'UTF8' TEMPLATE template0;"
+	echo "Granting CONNECT permissions"
 	su postgres sh -c "/usr/lib/postgresql/9.3/bin/postgres --single -D /var/lib/postgresql/9.3/main -c config_file=/etc/postgresql/9.3/main/postgresql.conf" <<< "GRANT CONNECT, TEMPORARY ON DATABASE db TO root;"
+	echo "Granting SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, and TRUNCATE permissions"
 	su postgres sh -c "/usr/lib/postgresql/9.3/bin/postgres --single -D /var/lib/postgresql/9.3/main -c config_file=/etc/postgresql/9.3/main/postgresql.conf" <<< "GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE ON ALL TABLES IN SCHEMA public TO root;"
 fi
 
