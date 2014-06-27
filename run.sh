@@ -8,7 +8,7 @@ psql postgres -tAc "SELECT 1;" &
 # Grab the PID
 PID=$!
 # Wait for the command to finish
-sleep 2
+sleep 1
 # Try to kill psql
 kill $PID
 # If psql asked for a password, the PID would still exist and kill would kill
