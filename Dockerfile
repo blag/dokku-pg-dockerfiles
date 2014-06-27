@@ -11,7 +11,7 @@ RUN echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.3/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
 
 # Add VOLUMEs to allow backup of config, logs, and databases
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+VOLUME  ["/etc/postgresql/9.3", "/var/log/postgresql/9.3", "/var/lib/postgresql"]
 
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
